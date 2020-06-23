@@ -1,0 +1,16 @@
+---
+- name: Configure Nginx
+  template:
+    src: "config/nginx.conf.j2"
+    dest: "{{ nginx_dir }}/nginx.conf"
+  notify: nginx restart
+  tags:
+    - nginx
+    - nginx-config
+
+- name: PHPMyAdmin support
+  include_tasks: phpmyadmin.yml
+  when: nginx_enable_phpmyadmin_support
+  tags:
+    - nginx
+    - nginx-config

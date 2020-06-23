@@ -1,0 +1,17 @@
+---
+- name: "Create {{ nginx_dir }}/snippets dir (if not exists)"
+  file:
+    dest: "{{ nginx_dir }}/snippets"
+    state: directory
+  tags:
+    - nginx
+    - nginx-config
+
+- name: PHPMyAdmin vhost configuration
+  template:
+    src: "config/phpmyadmin.conf.j2"
+    dest: "{{ nginx_dir }}/snippets/phpmyadmin.conf"
+  notify: nginx restart
+  tags:
+    - nginx
+    - nginx-config

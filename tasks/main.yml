@@ -18,3 +18,37 @@
     system: yes
   tags:
     - nginx
+
+# Setup tasks
+- name: Ubuntu dedicated install
+  include_tasks: setup/setup-Ubuntu.yml
+  when: ansible_distribution == 'Ubuntu'
+  tags:
+    - nginx
+    - nginx-install
+
+- name: Install Nginx
+  include_tasks: setup/setup-{{ ansible_os_family }}.yml
+  tags:
+    - nginx
+    - nginx-install
+
+# Default vhost
+- name: Default vhost
+  import_tasks: vhosts/default_vhost.yml
+  tags:
+    - nginx
+    - nginx-config
+# Vhosts
+# - name: Virtual hosts
+#   include_tasks: vhosts/vhosts.yml
+#   tags:
+#     - nginx
+#     - nginx-config
+
+# Configuration
+- name: Configure Nginx
+  include_tasks: config/config.yml
+  tags:
+    - nginx
+    - nginx-config
